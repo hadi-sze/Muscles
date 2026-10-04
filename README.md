@@ -1,6 +1,6 @@
-# MuscleWiki Persian — React recreation
+# Muscle — React recreation
 
-A responsive recreation of the MuscleWiki muscle-map interface, built with React 19 and Vite. Full right-to-left layout with a right-side navigation rail, mirrored header and workspace, Persian controls, front/back body diagrams, male/female models, keyboard-selectable muscles, equipment filters, exercise search, local saved exercises, and a rest timer.
+A responsive recreation of the Muscle muscle-map interface, built with React 19 and Vite. Full right-to-left layout with a right-side navigation rail, mirrored header and workspace, Persian controls, front/back body diagrams, male/female models, keyboard-selectable muscles, equipment filters, exercise search, local saved exercises, and a rest timer.
 
 ## Run
 
@@ -35,7 +35,7 @@ This demo has 31 exercise entries. Exercise detail cards link to the original ex
 
 Anatomy SVG assets: [Surya Mouly / muscle_mapper](https://github.com/suryamolly/muscle_mapper), MIT licensed. The original copyright notice is in `ASSET-LICENSE`.
 
-Layout reference: [MuscleWiki](https://musclewiki.com/fa-ir), with a [public screenshot](https://powerfulwebsites.io/site/musclewiki.com).
+
 
 Icons: Lucide. Font: Vazirmatn, served through Google Fonts with local system fallbacks.
 
