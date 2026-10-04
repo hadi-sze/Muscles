@@ -33,7 +33,7 @@ This demo has 31 exercise entries. Exercise detail cards link to the original ex
 
 ## Attribution
 
-Anatomy SVG assets: [Surya Mouly / muscle_mapper](https://github.com/suryamolly/muscle_mapper), MIT licensed. The original copyright notice is in `ASSET-LICENSE`.
+ MIT licensed. The original copyright notice is in `ASSET-LICENSE`.
 
 
 
