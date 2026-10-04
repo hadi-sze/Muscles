@@ -1,0 +1,19 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import vm from 'node:vm';
+const manifest = JSON.parse(await readFile('dist/manifest.webmanifest', 'utf8'));
+assert.equal(manifest.display, 'standalone'); assert.equal(manifest.dir, 'rtl');
+for (const icon of manifest.icons) { const b = await readFile('dist' + icon.src); const [w, h] = icon.sizes.split('x').map(Number); assert.equal(b.readUInt32BE(16), w); assert.equal(b.readUInt32BE(20), h) }
+const listeners = {}, stored = new Map(); let claimed = false;
+const caches = { open: async name => { if (!stored.has(name)) stored.set(name, new Map()); const entries = stored.get(name); return { addAll: async urls => { for (const url of urls) entries.set(url, await readFile('dist' + url)) }, match: async url => entries.get(url) } }, keys: async () => [...stored.keys()], delete: async key => stored.delete(key) };
+const self = { location: { origin: 'https://example.test' }, addEventListener: (name, fn) => listeners[name] = fn, clients: { claim: async () => { claimed = true } } };
+vm.runInNewContext(await readFile('dist/sw.js', 'utf8'), { self, caches, URL, fetch: () => { throw Error('Network unavailable') } });
+let pending; listeners.install({ waitUntil: p => pending = p }); await pending;
+const key = [...stored.keys()][0]; assert.ok(stored.get(key).has('/index.html'));
+const request = async (path, mode = 'cors') => { let result; listeners.fetch({ request: { url: 'https://example.test' + path, method: 'GET', mode }, respondWith: p => result = p }); return result };
+assert.ok((await request('/fa-ir', 'navigate')).includes(Buffer.from('<!doctype html>')));
+for (const url of stored.get(key).keys()) assert.ok(await request(url));
+stored.set('musclewiki-pwa-old', new Map()); stored.set('unrelated-cache', new Map());
+listeners.activate({ waitUntil: p => pending = p }); await pending;
+assert.equal(claimed, true); assert.equal(stored.has('musclewiki-pwa-old'), false); assert.equal(stored.has('unrelated-cache'), true);
+console.log('PASS: manifest/icons, offline navigation and every bundled asset, cache cleanup and activation.');
