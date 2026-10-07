@@ -1,3 +1,4 @@
+import { exerciseGuides } from './exercise-guides.js';
 export const muscles = {
     chest: ['سینه', 'Chest', ['upper-pectoralis', 'mid-lower-pectoralis']],
     shoulders: ['سرشانه', 'Shoulders', ['anterior-deltoid', 'lateral-deltoid', 'posterior-deltoid']],
@@ -25,4 +26,4 @@ const rows = [
     ['hamstrings', 'barbell', 'ددلیفت رومانیایی', 'Romanian deadlift'], ['hamstrings', 'machine', 'پشت پا دستگاه', 'Leg curl'], ['glutes', 'barbell', 'هیپ تراست', 'Hip thrust'], ['glutes', 'bodyweight', 'پل باسن', 'Glute bridge'],
     ['calves', 'bodyweight', 'ساق پا ایستاده', 'Standing calf raise'], ['calves', 'machine', 'ساق پا نشسته', 'Seated calf raise'], ['back', 'bodyweight', 'بارفیکس', 'Pull-up'], ['back', 'cable', 'لت سیم‌کش', 'Lat pulldown'], ['back', 'dumbbell', 'زیربغل دمبل تک دست', 'Dumbbell row'], ['traps', 'dumbbell', 'شراگ دمبل', 'Dumbbell shrug'], ['adductors', 'machine', 'داخل ران دستگاه', 'Hip adduction']
 ];
-export const exercises = rows.map(([muscle, equipment, name, en], i) => ({ id: i, muscle, equipment, name, en }));
+export const exercises = rows.map(([muscle, equipment, name, en], i) => ({ id: i, muscle, equipment, name, en, ...exerciseGuides[i] }));

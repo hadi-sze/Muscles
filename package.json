@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "start": "vite --host 127.0.0.1",
-    "dev": "vite --host 127.0.0.1",
-    "build": "vite build && node scripts/build-sw.mjs",
-    "preview": "vite preview --host 127.0.0.1"
+    "dev": "vite --mode https --host 127.0.0.1",
+    "build": "vite build --mode https && node scripts/build-sw.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "setup:https": "node scripts/setup-https.mjs",
+    "dev:https": "npm run setup:https && vite --mode https --host 127.0.0.1 --port 5176 --strictPort",
+    "preview:https": "npm run setup:https && vite preview --mode https --host 127.0.0.1 --port 5170 --strictPort"
   },
   "dependencies": {
     "react": "^19.1.0",

@@ -1,0 +1,50 @@
+html[data-theme="dark"] {
+ --blue:#8aaeff; --muted:#a4b3ca; --line:#2b3a50;
+ --surface:#162237; --raised:#1c2b42; --tint:#20334f;
+ color:#e0e8f5; background:#0e1726; color-scheme:dark;
+}
+html[data-theme="dark"] body { background:linear-gradient(165deg,#101b2d,#0e1726 60%,#14243d); }
+html[data-theme="dark"] :is(.app-bar,.sidebar,.sidebar.expanded,.drawer-heading,.canvas,.filter-panel,.map-controls,.map-exercises,.exercise-card,dialog,.workout-resume) { background:var(--surface); color:#e0e8f5; border-color:var(--line); }
+html[data-theme="dark"] :is(.app-bar .search,.app-bar .generator,.app-bar .language,.pwa-install,.theme-toggle,.mobile-menu-trigger,.equipment-heading button,.filter-bottom,.sidebar .menu-button,.sidebar .rail-bottom,.secondary,.muscle-list button,.session-rest,.session-plan button,.library-filters,.reading-card) { background:var(--raised); color:#b8cdf0; border-color:var(--line); }
+html[data-theme="dark"] :is(.app-bar .brand b,.equipment-heading h2,.empty h3,.panel-title h2,.exercise-content h3,.session-stats strong,.progress-totals strong,.reading-card h3) { color:#e0e8f5; }
+html[data-theme="dark"] :is(.search input,.library-filters select,.set-form input,.session-rest-settings input,.progress-exercise select) { color:#e0e8f5; border-color:var(--line); background:var(--raised); }
+html[data-theme="dark"] input::placeholder { color:#9cabbe; }
+html[data-theme="dark"] :is(.sidebar .nav-item,.drawer-identity small,.map-hint,.map-legend,.map-legend>span:first-child,.workspace-intro p,.intro-eyebrow,.filter-bottom,.panel-count,.compact-exercises small,.exercise-content p,.detail-english,.empty,.pwa-dialog .pwa-note,.flip-label,.flip-colon,.session-rest h3,.rest-status,.set-form label,.session-rest-settings label,.session-rest-idle,.copyright,.copyright>div) { color:var(--muted); }
+html[data-theme="dark"] :is(.sidebar .nav-item.active,.sidebar .nav-item:hover,.sidebar .menu-button:hover,.app-bar .language:hover,.theme-toggle:hover,.equipment-grid label:hover,.equipment-grid label.checked,.body-tabs,.progress-range,.progress-metrics,.session-tags span,.session-plan button.current,.detail-meta span,.guide-tip,.video-placeholder,.pwa-cache-state,.timer-status) { background:var(--tint); color:#b8cdf0; border-color:#355078; }
+html[data-theme="dark"] :is(.map-card-icon,.exercise-symbol,.equipment-tag,.count,.selected-chips>*,.content-icon,.session-plan button>span,.workout-action-icon) { background:var(--tint); color:var(--blue); }
+html[data-theme="dark"] :is(.primary,.primary:hover,.body-tabs button[aria-pressed="true"],.sidebar .nav-item.active>span:first-child,.drawer-mark) { background:#426de4; color:white; }
+html[data-theme="dark"] :is(.rest-shortcut,.save,.save.is-saved,.progress-range [aria-pressed="true"],.progress-metrics [aria-pressed="true"],.session-rest-settings [aria-pressed="true"]) { background:var(--raised); color:var(--blue); border-color:var(--line); }
+html[data-theme="dark"] :is(.map-card-heading,.map-controls,.map-controls>*+*,.dialog-heading,.exercise-content>button,.compact-exercises article,.logged-sets,.session-plan,.session-rest-settings,.workout-history,.workout-history summary,.progress-card,.progress-data,.reading-card details,.sidebar .rail-bottom) { border-color:var(--line); }
+html[data-theme="dark"] .bodies { background:radial-gradient(ellipse at 50% 48%,#1b2b43,#131f32); }
+html[data-theme="dark"] .body-map { color:#354d69; }
+html[data-theme="dark"] .body-map g[data-muscle]:is(:hover,:focus-visible,.hovered) { color:#7898c0; }
+html[data-theme="dark"] .body-map g[data-muscle].selected { color:#8dafff; }
+html[data-theme="dark"] .body-map path { stroke:#91a7c4; }
+html[data-theme="dark"] .exercise-art { background:linear-gradient(135deg,#21334d,#1a2b46); color:#94b6f4; }
+html[data-theme="dark"] .workout-plan-action,html[data-theme="dark"] .progress-totals>div { background:linear-gradient(135deg,#1c2b42,#213454); border-color:var(--line); }
+html[data-theme="dark"] .session-stats>span { background:var(--raised); }
+html[data-theme="dark"] .map-status,html[data-theme="dark"] .rest-done,html[data-theme="dark"] .workout-complete-mark { background:#173a34; color:#a2dcc0; border-color:#2c6050; }
+html[data-theme="dark"] .rest-done .rest-status { color:#a2dcc0; }
+html[data-theme="dark"] .difficulty-tag { background:#213c34; color:#b0dec6; }
+html[data-theme="dark"] .difficulty-intermediate { background:#423a25; color:#e8d49a; }
+html[data-theme="dark"] .difficulty-advanced { background:#422b40; color:#e4b9d0; }
+html[data-theme="dark"] .reading-alert { background:#372c25; border-color:#5d4635; }
+html[data-theme="dark"] .reading-alert h3 { color:#f0bd93; }
+html[data-theme="dark"] .workout-error { background:#432631; color:#ffc0cb; }
+html[data-theme="dark"] .page-transition { background:#0e1726f5; }
+html[data-theme="dark"] .chart-grid { stroke:var(--line); }
+html[data-theme="dark"] .chart-point { fill:var(--surface); }
+html[data-theme="dark"] .chart-point.selected { fill:var(--blue); }
+html[data-theme="dark"] .chart-point:focus-visible { stroke:#d7e4ff; }
+html[data-theme="dark"] :is(.progress-data summary,.chart-axis,.back-button,.eyebrow) { color:#abc2e9; fill:#a4b3ca; }
+html[data-theme="dark"] .store-links a { background:var(--raised); border-color:var(--line); }
+html[data-theme="dark"] .drawer-backdrop,html[data-theme="dark"] dialog::backdrop { background:#030915a6; }
+
+html[data-theme="dark"] .equipment-grid label { color:#b8c8de; }
+html[data-theme="dark"] .equipment-grid label>svg { color:var(--blue); }
+html[data-theme="dark"] .equipment-grid input { background:var(--raised); border-color:#6982a6; }
+html[data-theme="dark"] .equipment-grid input:checked { background:#426de4; border-color:#426de4; }
+html[data-theme="dark"] .more-equipment { border-color:var(--line); }
+
+html[data-theme="dark"] .muscle-tooltip { background:var(--raised); color:#e0e8f5; border-color:var(--line); }
+html[data-theme="dark"] .rest-done .session-rest-status { color:#a2dcc0; }

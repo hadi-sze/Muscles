@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useId } from 'react';
 import { Download } from 'lucide-react';
 export default function Pwa() {
     const [prompt, setPrompt] = useState(null), [installed, setInstalled] = useState(false), [offline, setOffline] = useState(!navigator.onLine), [ready, setReady] = useState(false), [update, setUpdate] = useState(false), [error, setError] = useState(false);
     const dialog = useRef(null);
+    const titleId = useId();
     useEffect(() => {
         const standalone = window.matchMedia('(display-mode: standalone)');
         const detect = () => setInstalled(standalone.matches || navigator.standalone === true);
@@ -34,8 +35,8 @@ export default function Pwa() {
             {!installed && <button className="pwa-install" onClick={install} aria-label="نصب برنامه" title="نصب برنامه"><Download size={19} strokeWidth={1.8} aria-hidden="true" /><span>نصب برنامه</span></button>}
             {update && <span className="pwa-update" role="status">نسخه جدید آماده است؛ همه پنجره‌های برنامه را ببندید و دوباره باز کنید.</span>}
         </div>
-        <dialog ref={dialog} className="pwa-dialog" onClick={e => { if (e.target === e.currentTarget) dialog.current.close() }}>
-            <div className="dialog-heading"><h2>نصب MuscleWiki</h2><button className="icon-button" aria-label="بستن راهنمای نصب" onClick={() => dialog.current.close()}>×</button></div>
+        <dialog ref={dialog} aria-labelledby={titleId} className="pwa-dialog" onClick={e => { if (e.target === e.currentTarget) dialog.current.close() }}>
+            <div className="dialog-heading"><h2 id={titleId}>نصب MuscleWiki</h2><button className="icon-button" aria-label="بستن راهنمای نصب" onClick={() => dialog.current.close()}>×</button></div>
             <p>برنامه را به صفحه اصلی گوشی یا رایانه اضافه کنید.</p>
             <ul><li>آیفون و آیپد: در Safari، منوی اشتراک‌گذاری و سپس «Add to Home Screen» را انتخاب کنید.</li><li>اندروید: از منوی مرورگر، «Install app» یا «Add to Home screen» را انتخاب کنید.</li><li>رایانه: گزینه نصب در نوار آدرس یا منوی مرورگر را انتخاب کنید.</li></ul>
             <p>اگر گزینه نصب را نمی‌بینید، این نشانی را در مرورگر اصلی دستگاه باز کنید.</p>

@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import { WORKOUT_KEY, createSession, finishSession, isTimedExercise, logSet, readWorkoutState, remainingRest, setCount } from '../src/workout-model.js';
+
+const plan = [{ id: 0, name: 'Bench press', en: 'Barbell bench press', equipment: 'barbell' }, { id: 15, name: 'Plank', en: 'Plank', equipment: 'bodyweight' }];
+let session = createSession(plan, 1000);
+plan.pop();
+assert.equal(session.exercises.length, 2, 'Changing the saved plan must not change an active session.');
+assert.throws(() => createSession([]));
+for (const [amount, weight] of [['', 20], [0, 20], [2.5, 20], [10, -1], [10, ''], [10, Infinity]]) assert.throws(() => logSet(session, amount, weight));
+session = logSet(session, '10', '12.5', 2000);
+assert.equal(setCount(session), 1);
+assert.equal(session.exercises[0].sets[0].weight, 12.5);
+assert.equal(remainingRest(session.rest, 23000), 39);
+assert.equal(remainingRest(session.rest, 99000), 0, 'Background delays must not extend a rest period.');
+assert.equal(remainingRest({ deadline: null, remaining: 21 }, 99000), 21, 'Paused rest must not elapse.');
+session = { ...session, currentIndex: 1, rest: null };
+session = logSet(session, 30, 0, 90000);
+assert.ok(isTimedExercise(session.exercises[1]));
+assert.equal(session.exercises[1].sets[0].amount, 30);
+assert.equal(session.exercises[0].sets.length, 1, 'Logging another exercise must preserve earlier sets.');
+
+const storage = { getItem: key => key === WORKOUT_KEY ? JSON.stringify({ active: session, history: [] }) : null };
+assert.deepEqual(readWorkoutState(storage).active, session, 'Reload must preserve exercises, sets and the rest deadline.');
+const finished = finishSession(readWorkoutState(storage), 150000);
+assert.equal(finished.active, null);
+assert.equal(finished.history[0].rest, null);
+assert.equal(setCount(finished.history[0]), 2);
+assert.equal(finished.history[0].finishedAt, 150000);
+assert.equal(readWorkoutState({ getItem: () => JSON.stringify(finished) }).history.length, 1);
+assert.equal(finishSession({ active: createSession(plan), history: finished.history }).history.length, 1, 'Empty sessions must not create history records.');
+assert.equal(finishSession({ active: session, history: Array(100).fill(finished.history[0]) }).history.length, 100);
+for (const value of ['broken json', '{}', '{"active":{"exercises":[]},"history":[null]}']) assert.deepEqual(readWorkoutState({ getItem: () => value }), { active: null, history: [] });
+assert.deepEqual(readWorkoutState({ getItem: () => { throw new Error('Unavailable'); } }), { active: null, history: [] });
+console.log('PASS: session snapshots, input validation, decimal weights, timed exercises, rest deadlines/pausing, reload recovery, summaries and malformed storage.');

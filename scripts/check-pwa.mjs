@@ -11,6 +11,9 @@ vm.runInNewContext(await readFile('dist/sw.js', 'utf8'), { self, caches, URL, fe
 let pending; listeners.install({ waitUntil: p => pending = p }); await pending;
 const key = [...stored.keys()][0]; assert.ok(stored.get(key).has('/index.html'));
 const request = async (path, mode = 'cors') => { let result; listeners.fetch({ request: { url: 'https://example.test' + path, method: 'GET', mode }, respondWith: p => result = p }); return result };
+assert.equal(stored.get(key).has('/health.json'), false);
+assert.equal(await request('/health.json?check=123'), undefined);
+assert.equal(await request('/health.json', 'navigate'), undefined);
 assert.ok((await request('/fa-ir', 'navigate')).includes(Buffer.from('<!doctype html>')));
 for (const url of stored.get(key).keys()) assert.ok(await request(url));
 stored.set('musclewiki-pwa-old', new Map()); stored.set('unrelated-cache', new Map());

@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import { checkConnection, connectionLevel } from '../src/connection-model.js';
+const serverOK = { ok: true, json: async () => ({ status: 'ok', service: 'musclewiki' }) };
+const internetOK = { type: 'opaque' };
+const successful = async (url, options) => {
+    assert.equal(options.cache, 'no-store'); assert.equal(options.credentials, 'omit');
+    if (url.startsWith('/health.json?')) return serverOK;
+    assert.equal(options.mode, 'no-cors'); assert.equal(options.referrerPolicy, 'no-referrer'); return internetOK;
+};
+let state = await checkConnection({ fetcher: successful }); assert.equal(connectionLevel(state), 'online');
+state = await checkConnection({ fetcher: async url => url.startsWith('/') ? { ok: false } : internetOK });
+assert.equal(state.server, 'down'); assert.equal(state.internet, 'up'); assert.equal(connectionLevel(state), 'offline');
+state = await checkConnection({ fetcher: async url => { if (url.startsWith('/')) return serverOK; throw Error('Blocked'); } });
+assert.equal(state.internet, 'unknown'); assert.equal(connectionLevel(state), 'uncertain');
+state = await checkConnection({ online: false, fetcher: async url => { assert.ok(url.startsWith('/')); return serverOK; } });
+assert.equal(state.server, 'up'); assert.equal(state.internet, 'offline'); assert.equal(connectionLevel(state), 'offline');
+state = await checkConnection({ fetcher: async url => url.startsWith('/') ? { ok: true, json: async () => { throw Error('HTML fallback'); } } : internetOK });
+assert.equal(state.server, 'down');
+const hanging = (url, { signal }) => new Promise((resolve, reject) => { if (signal.aborted) reject(Error('Aborted')); else signal.addEventListener('abort', () => reject(Error('Aborted')), { once: true }); });
+state = await checkConnection({ fetcher: hanging, timeout: 10 }); assert.equal(state.server, 'down'); assert.equal(state.internet, 'unknown');
+const controller = new AbortController(); controller.abort();
+await checkConnection({ fetcher: hanging, signal: controller.signal });
+console.log('PASS: independent probes, cache bypass, invalid health responses, offline state, blocked internet uncertainty, timeout and cancellation.');

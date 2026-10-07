@@ -14,6 +14,8 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
  const request=event.request,url=new URL(request.url);
  if(request.method!=='GET'||url.origin!==self.location.origin)return;
+ // Health checks must reach the network, even when the app is available offline.
+ if(url.pathname==='/health.json')return;
  if(request.mode==='navigate'){
   event.respondWith(caches.open(CACHE).then(async cache=>(await cache.match('/index.html'))||fetch(request)));
   return;
