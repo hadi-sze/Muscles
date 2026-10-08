@@ -99,6 +99,34 @@ The exercise library combines text, muscle, equipment, and difficulty filters. S
 
 **تغذیه** contains three short articles on food variety, energy/protein, and hydration. **آسیب ورزشی** contains three general articles on sprains/strains, return to activity, and warm-up, plus urgent warning signs. A separate dumbbell section adds five cards covering shoulder/rotator cuff pain, elbow tendon pain, wrist injuries, lower-back pain, and safer strength training. These conditions are not exclusive to dumbbells. Expandable tips and direct WHO/NHS/AAOS source links are included. General sources were checked on 5 October 2026; dumbbell sources were checked on 6 October 2026. The content is general education and has not been clinically reviewed; it does not provide diagnosis or a personal treatment or nutrition plan.
 
+## Planning tools and connection status
+
+Open **برنامه‌ریزی** in the menu for five tools, also linked from **برنامه من** and **پیشرفت من**:
+
+- **سازنده برنامه** selects available exercises by body focus, equipment, difficulty ceiling and time allowance. Preview, add/remove and reorder exercises before adding them to the saved plan; existing saved exercises are preserved. Time is a rough exercise-count budget, not a promised session duration.
+- **تقویم تمرین** stores independent saved-plan snapshots or rest days under `mw-calendar-v1`. Weeks run Saturday through Friday in the device's local timezone. Recorded sessions are shown separately from scheduled plans. Starting a scheduled plan resumes an existing active session if one exists.
+- **فعالیت عضلات** shades the front/back maps by completed-session sets for each exercise's primary muscle. Counts are activity records, not recovery assessments. Previous weeks and an accessible muscle selector are available.
+- **رکوردهای من** derives independent maximum weight, repetitions and timed holds from completed sessions, with dates and companion set values. No estimated strength score is calculated.
+- **پشتیبان‌گیری** downloads versioned JSON and validates a selected local file before presenting an import preview. Import merges saved exercise IDs and completed history, preserves existing calendar dates and any active session, and retains the newest 100 completed sessions. Active sessions and theme settings are excluded from backups. Files are limited to 2 MB; no files are uploaded to a server.
+
+The app-bar connection light probes `/health.json` and an external Google static connectivity endpoint independently. Green means both responded, red means the server did not respond or the browser reports offline, and amber means the external connection cannot be confirmed. An external endpoint may be blocked even when other internet services work. Checks use a five-second timeout, run every 30 seconds while visible (60 seconds in the background), and refresh on focus, visibility and connectivity changes. Browsers may suspend background checks. The service worker never caches or handles the health endpoint, so an offline app shell cannot produce a false healthy-server result. Keep `health.json` reachable without authentication on the static host.
+
+Article cards use translucent, blurred backdrops in both themes with an opaque fallback where backdrop filtering is unsupported. Their text remains sharp.
+
+Run `TZ=Asia/Tehran node scripts/check-planning.mjs` and `node scripts/check-connection.mjs` for calendar/backup/record and connection-probe checks, alongside the existing workout, progress, library and PWA checks.
+
 ## Accessibility and responsive checks
 
 A skip link leads to the main content. Mobile menus keep background controls inert, trap focus, close with Escape, and restore focus to the trigger. Dialogs have accessible titles and scroll within short screens. Key controls have 44px touch targets, and filter/result updates are announced. Layouts were checked down to a 320px viewport; the app retains its existing reduced-motion page transitions.
+
+The exercise library's muscle filter uses Material UI `Select` and `MenuItem`, with an Emotion RTL cache and a scoped theme that follows the app's light/dark setting. Its scrollable menu has 44px options, an associated visible label, and keyboard selection. It keeps the existing combined equipment/difficulty filtering and clear-filters action. Checked at 320px and the normal mobile width, including ArrowDown/Enter selection, Escape, focus restoration, and both themes.
+
+The equipment filter uses MUI `Autocomplete` for a searchable dropdown, sharing the same RTL/theme wrapper. Search matches Persian labels or English equipment IDs and normalizes Arabic/Persian letters. Typing filters the available options; only selecting an option changes exercise results. Choosing **همه تجهیزات** or clearing filters resets the equipment selection. The existing multiple-equipment selection is represented by a disabled summary option until a new equipment option is chosen. Empty-search feedback is in Persian. Search, keyboard selection, combined filters, reset, Escape, both themes, and the 320px layout were checked in the browser.
+
+## Articles menu
+
+The expandable **مقالات** menu contains **تغذیه**, **برای مبتدیان**, and **کاهش چربی بدن**. The links open the original Persian MuscleWiki categories 1, 7, and 5 in a new tab. Destinations were verified against the original site category navigation on 8 October 2026. The existing local nutrition guide remains available. Submenu links participate in the mobile focus trap and are hidden from keyboard navigation when collapsed.
+
+## Menu header
+
+The mobile drawer shares the app-bar logo mark, uses the Persian tagline **تمرین را ساده کنید**, and has a subtle blue gradient with a 44px close button. The header remains visible while the navigation list scrolls; safe-area padding and dark mode are supported. Checked at 320px and the normal mobile preview width.

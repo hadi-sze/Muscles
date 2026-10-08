@@ -13,9 +13,15 @@
     "preview:https": "npm run setup:https && vite preview --mode https --host 127.0.0.1 --port 5170 --strictPort"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^9.4.0",
+    "@mui/stylis-plugin-rtl": "^9.4.0",
+    "lucide-react": "^0.468.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "lucide-react": "^0.468.0"
+    "stylis": "^4.4.0"
   },
   "devDependencies": {
     "vite": "^6.1.0"
